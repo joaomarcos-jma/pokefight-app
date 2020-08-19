@@ -1,0 +1,31 @@
+{
+  "name": "nuxt-template",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "build-prod": "npm run build && npm run start"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.12.0",
+    "@nuxtjs/proxy": "^2.0.1",
+    "@nuxtjs/pwa": "^3.0.0-beta.20",
+    "animate.css": "^4.1.0",
+    "cep-promise": "^4.0.0",
+    "cookie-universal-nuxt": "^2.1.4",
+    "epic-spinners": "^1.1.0",
+    "moment": "^2.27.0",
+    "nuxt": "^2.14.0",
+    "secure-ls": "^1.2.6",
+    "sweetalert2": "^9.17.1",
+    "vue-currency-filter": "^5.1.1",
+    "vue-the-mask": "^0.11.1",
+    "vuex-persistedstate": "^3.1.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/vuetify": "^1.11.2"
+  }
+}
