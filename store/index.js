@@ -97,22 +97,20 @@ export const actions = {
 
   async getDataExample({ commit, state }, payload) {
     // use params type 1 
-    // let obj = {
-    //     page: payload.page,
-    //     field: this.$functions.isNumeric(this.$mask.unmask(payload.search))
-    //         ? this.$mask.unmask(payload.search)
-    //         : payload.search
-    // };
-    // let params = this.$functions.objParams(obj);
-    // let concatParam =
-    //     params.page +
-    //     (params.name || params.cpf ? params.name || params.cpf : "");
-    // let response = await api.request("get", `/api/route?${concatParam}`)
+    let obj = {
+        page: payload.page,
+        field: this.$functions.isNumeric(this.$mask.unmask(payload.search))
+            ? this.$mask.unmask(payload.search)
+            : payload.search
+    };
+    let params = this.$functions.objParams(obj);
+    let response = await api.request("get", `/api/route?${params}`)
 
     // type 2
-    let response = await api.request("get", `/api/route`, null, {
-      params: payload
-    })
+    //     let response = await api.request("get", `/api/route`, null, {
+    //       params: payload
+    //     })
+    
     if (response.status === 200) {
       commit("DATA_EXAMPLE", response.data);
     }
