@@ -1,8 +1,5 @@
 <template>
   <v-layout>
-    <v-overlay :value="isLoading">
-      <loading v-if="isLoading" />
-    </v-overlay>
     <v-flex class="text-center">
       <img src="/v.png" alt="Vuetify.js" class="mb-5" />
       <blockquote class="blockquote">
@@ -17,19 +14,11 @@
   </v-layout>
 </template>
 <script>
-import Loading from "@/components/Loading";
 export default {
-  components: { Loading },
   data() {
     return {
       isLoading: false,
     };
-  },
-  mounted() {
-    this.isLoading = true;
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 1200);
   },
 };
 </script>

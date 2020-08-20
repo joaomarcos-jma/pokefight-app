@@ -1,9 +1,6 @@
 <template>
   <v-lazy>
     <div>
-      <v-overlay class="fill-height" :value="isLoading">
-        <loading v-if="isLoading" />
-      </v-overlay>
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
@@ -68,46 +65,20 @@
   </v-lazy>
 </template>
 <script>
-import Loading from "@/components/Loading";
 import Logo from "@/components/Logo";
 export default {
-  components: { Loading, Logo },
+  components: { Logo },
   data: () => ({
     username: "",
     password: "",
   }),
-  mounted() {
-    if (this.$store.state.isAuthenticated) {
-      this.$router.push("/");
-    }
-  },
-  //   watch: {
-  //     isLoading(value) {
-  //       setTimeout(() => {
-  //         if (this.$store.state.isAuthenticated) {
-  //           this.$router.push('/inspire')
-  //         }
-  //         // if (this.$store.state.forgotten) {
-  //         //   return this.$functions.goTo("recuperar-senha");
-  //         // }
-  //         this.$swal.fire({
-  //           title: "Ops!",
-  //           text: "Clique em voltar para continuar",
-  //           icon: "error",
-  //           confirmButtonText: "Voltar",
-  //         });
-  //       }, 300);
-  //     },
-  //   },
   methods: {
     onSubmit() {
       if (!this.username || !this.password) {
         return;
       }
-      //   let form = { username: this.username, password: this.password };
-      //   this.$store.dispatch("login", form);
-      this.$store.commit('SET_LOADING', true)
-      this.$router.push("/inspire");
+      let form = { username: this.username, password: this.password };
+      this.$store.dispatch("login", form);
     },
   },
   computed: {
