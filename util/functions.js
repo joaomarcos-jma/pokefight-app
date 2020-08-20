@@ -22,17 +22,19 @@ export default {
         else
             return document.location.search + param + "=" + value;
     },
-    objParams(obj) {
+    objParams(obj, nameFieldNumeric) {
         let params = {}
         Object.keys(obj).forEach(res => {
             if (res === 'field' && obj[res]) {
-                params.name = !this.isNumeric(obj[res]) ? this.addParameter(res, obj[res]).replace('field', 'name') : ''
-                params.cpf = this.isNumeric(obj[res]) ? this.addParameter(res, obj[res]).replace('field', 'cpf') : ''
+                params.name = !this.isNumeric(obj[res]) ? this.addParameter(res, obj[res] + '&').replace('field', 'name') : ''
+                params[nameFieldNumeric] = this.isNumeric(obj[res]) ? this.addParameter(res, obj[res] + '&').replace('field', nameFieldNumeric) : ''
             }
             params[res] = this.addParameter(res, obj[res]) + "&"
             delete params.field;
         })
-        return params
+        this.removeNullFields(params)
+        params = Object.values(params).reduce((prev, curr) => prev + curr);
+        return params.substr(0, params.length - 1)
     },
     trimString: (string, length) => {
         if (string) {
