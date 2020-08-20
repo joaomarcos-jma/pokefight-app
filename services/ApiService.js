@@ -19,7 +19,6 @@ export default class ApiService extends ErrorHandler {
       };
     }
 
-    // let url = API_BASE + uri
     let url = "/base_url" + uri; /* use proxy */
 
     this.setLoading(true)
