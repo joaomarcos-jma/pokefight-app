@@ -90,9 +90,7 @@ export default {
   },
 
   mounted() {
-    if (this.isMobile) {
-      this.miniVariant = true;
-    }
+    this.checkMiniVariant();
     this.onResize();
     window.addEventListener("resize", this.onResize, { passive: true });
   },
@@ -113,6 +111,11 @@ export default {
   },
 
   methods: {
+    checkMiniVariant() {
+      if (this.isMobile) {
+          this.miniVariant = true;
+      }
+    },
     onResize() {
       let isMobile = window.innerWidth < 600;
       this.$store.commit("CHECK_MOBILE", isMobile);
