@@ -19,11 +19,13 @@ export default class ApiService extends ErrorHandler {
       };
     }
 
-    // let url = API_BASE + uri
     let url = "/base_url" + uri; /* use proxy */
 
     this.setLoading(true)
-    await axios({ method, url, data, params }).then(() => this.setLoading(false)).catch((err) => {
+    await axios({ method, url, data, params }).then((res) => {
+      this.setLoading(false)
+      return res;
+    }).catch((err) => {
       this.setLoading(false)
       return this.errorHandler(err.response)
     });

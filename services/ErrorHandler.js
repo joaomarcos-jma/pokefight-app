@@ -15,7 +15,7 @@ export default class ErrorHandler {
                 nf.notify('Houve um problema!', "O servidor não pode encontrar o recurso solicitado!", "error")
                 break;
             case 406:
-                nf.notify('Descuple!', "No momento essa operação não é possível!", "error")
+                nf.notify('Desculpe!', "No momento essa operação não é possível!", "error")
                 break;
             case 422:
                 nf.notify('Desculpe!', "Verifique os campos informados e tente novamente!", "error")

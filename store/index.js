@@ -46,7 +46,7 @@ export const actions = {
     let auth_body = {
       grant_type: 'client_credentials',
       client_id: 3,
-      client_secret: 'bwsaeVPUJQg8MEzj3qzUYR91qVYoQCKGDVe2WtNq',
+      client_secret: 'key_client',
     }
     let response = await api.request('post', '/oauth/token', auth_body)
     commit('SET_AUTHENTICATED', response.data)
@@ -59,7 +59,7 @@ export const actions = {
       'username': payload.username,
       'password': payload.password,
       'client_id': '2',
-      'client_secret': '3nMocUr42n2Hw31c6UPh1nDshs9H6u9rby2LSZpw'
+      'client_secret': 'key_client'
     }
     let response = await api.request('post', '/oauth/token', auth_body)
     if (response) {
@@ -77,7 +77,7 @@ export const actions = {
       'grant_type': 'refresh_token',
       'refresh_token': refresh_token,
       'client_id': '2',
-      'client_secret': '3nMocUr42n2Hw31c6UPh1nDshs9H6u9rby2LSZpw'
+      'client_secret': 'key_client'
     };
     await api.request('post', '/oauth/token', auth_body).then(async response => {
       await new Promise(async resolve => {
@@ -97,22 +97,20 @@ export const actions = {
 
   async getDataExample({ commit, state }, payload) {
     // use params type 1 
-    // let obj = {
-    //     page: payload.page,
-    //     field: this.$functions.isNumeric(this.$mask.unmask(payload.search))
-    //         ? this.$mask.unmask(payload.search)
-    //         : payload.search
-    // };
-    // let params = this.$functions.objParams(obj);
-    // let concatParam =
-    //     params.page +
-    //     (params.name || params.cpf ? params.name || params.cpf : "");
-    // let response = await api.request("get", `/api/route?${concatParam}`)
+    let obj = {
+        page: payload.page,
+        field: this.$functions.isNumeric(this.$mask.unmask(payload.search))
+            ? this.$mask.unmask(payload.search)
+            : payload.search
+    };
+    let params = this.$functions.objParams(obj);
+    let response = await api.request("get", `/api/route?${params}`)
 
     // type 2
-    let response = await api.request("get", `/api/route`, null, {
-      params: payload
-    })
+    //     let response = await api.request("get", `/api/route`, null, {
+    //       params: payload
+    //     })
+    
     if (response.status === 200) {
       commit("DATA_EXAMPLE", response.data);
     }
