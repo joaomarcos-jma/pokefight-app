@@ -46,7 +46,7 @@ export const actions = {
     let auth_body = {
       grant_type: 'client_credentials',
       client_id: 3,
-      client_secret: 'bwsaeVPUJQg8MEzj3qzUYR91qVYoQCKGDVe2WtNq',
+      client_secret: 'key_client',
     }
     let response = await api.request('post', '/oauth/token', auth_body)
     commit('SET_AUTHENTICATED', response.data)
@@ -59,7 +59,7 @@ export const actions = {
       'username': payload.username,
       'password': payload.password,
       'client_id': '2',
-      'client_secret': '3nMocUr42n2Hw31c6UPh1nDshs9H6u9rby2LSZpw'
+      'client_secret': 'key_client'
     }
     let response = await api.request('post', '/oauth/token', auth_body)
     if (response) {
