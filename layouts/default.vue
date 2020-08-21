@@ -42,6 +42,8 @@
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
       <v-toolbar-title v-text="title" />
+      <v-spacer/>
+      <v-btn @click="toggle" icon><v-icon>{{!$vuetify.theme.dark ? 'mdi-flashlight' : 'mdi-flashlight-off'}}</v-icon></v-btn>
     </v-app-bar>
     <v-main>
       <v-overlay class="fill-height" :value="isLoading">
@@ -113,6 +115,9 @@ export default {
   },
 
   methods: {
+    toggle() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+    },
     onResize() {
       let isMobile = window.innerWidth < 600;
       this.$store.commit("CHECK_MOBILE", isMobile);
