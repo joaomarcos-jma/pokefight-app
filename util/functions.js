@@ -42,8 +42,5 @@ export default {
                 string.substring(0, length) + '...' :
                 string;
         }
-    },
-    // goTo(path) {
-    //     return router.push(path)
-    // }
+    }
 }
