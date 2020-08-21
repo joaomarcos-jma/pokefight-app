@@ -77,7 +77,7 @@ export const actions = {
       'grant_type': 'refresh_token',
       'refresh_token': refresh_token,
       'client_id': '2',
-      'client_secret': '3nMocUr42n2Hw31c6UPh1nDshs9H6u9rby2LSZpw'
+      'client_secret': 'key_client'
     };
     await api.request('post', '/oauth/token', auth_body).then(async response => {
       await new Promise(async resolve => {
