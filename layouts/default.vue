@@ -8,9 +8,6 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <v-overlay class="fill-height" :value="isLoading">
-        <loading v-if="isLoading" />
-      </v-overlay>
       <v-container>
         <nuxt />
       </v-container>
@@ -19,12 +16,10 @@
 </template>
 
 <script>
-import Loading from "@/components/Loading";
 export default {
-  components: { Loading },
   data() {
     return {
-      title: "Rinha-mon"
+      title: "Pokefight"
     };
   },
 
@@ -40,9 +35,6 @@ export default {
   },
 
   computed: {
-    isLoading() {
-      return this.$store.state.isLoading;
-    },
     showBar() {
       return ["home", "login"].includes(this.$route.name);
     },
