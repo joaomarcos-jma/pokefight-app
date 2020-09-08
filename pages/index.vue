@@ -1,7 +1,5 @@
 <script>
 export default {
-  mounted() {
-    this.$router.push("/battle");
-  }
+  middleware: ["battleStart"],
 };
 </script>

@@ -72,42 +72,47 @@
           >START</v-btn>
         </div>
       </v-container>
+      <v-overlay :value="isLoading">
+        <loading v-if="isLoading" />
+      </v-overlay>
     </v-flex>
   </v-layout>
 </template>
 <script>
 import CountdownTimer from "@/components/CountdownTimer";
+import Loading from "@/components/Loading";
 export default {
-  components: { CountdownTimer },
+  components: { CountdownTimer, Loading },
   data() {
     return {
       render: false,
       stylePkOne: ["animate__animated"],
       stylePkTwo: ["animate__animated"],
       styleVersus: ["text-versus", "animate__animated"],
-      knowledge: 1,
+      isLoading: false,
       start: false,
       time: 10,
-      endTime: false
+      endTime: false,
     };
   },
   mounted() {
     this.getPokemon();
   },
   watch: {
-    fighterOne(val) {
+    fighterTwo(val) {
       if (val) {
         setTimeout(async () => {
           this.render = true;
           const arrClass = [
             "animate__backInLeft",
             "animate__backInRight",
-            "animate__zoomInUp"
+            "animate__zoomInUp",
           ];
+          this.isLoading = false;
           await this.arrProps(arrClass);
         }, 600);
       }
-    }
+    },
   },
   computed: {
     fighterOne() {
@@ -134,8 +139,8 @@ export default {
       const stats = arrFighter.reduce((prev, curr) => [prev.stats, curr.stats]);
       let countHits = [];
       stats.reduce((prev, curr) => {
-        let prevArr = prev.map(res => res.base_stat);
-        let currArr = curr.map(res => res.base_stat);
+        let prevArr = prev.map((res) => res.base_stat);
+        let currArr = curr.map((res) => res.base_stat);
         prevArr.forEach((val, index) => {
           let count = val > currArr[index];
           if (count) {
@@ -148,17 +153,18 @@ export default {
         : countHits.length < 3
         ? this.fighterTwo
         : arrFighter;
-    }
+    },
   },
   methods: {
     async getPokemon(event) {
+      this.isLoading = true;
       if (event) {
         this.start = false;
         this.endTime = false;
         const arrClass = [
           "animate__backOutLeft",
           "animate__backOutRight",
-          "animate__zoomOutDown"
+          "animate__zoomOutDown",
         ];
         await this.arrProps(arrClass, "exit");
       }
@@ -187,12 +193,12 @@ export default {
         () => {
           return this.$refs.countDown ? this.$refs.countDown.timeLeft : 0;
         },
-        val => {
+        (val) => {
           !val ? ((this.start = false), (this.endTime = true)) : "";
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style>

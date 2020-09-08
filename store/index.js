@@ -4,7 +4,10 @@ export const state = () => ({
   isMobile: null,
   isLoading: false,
   data: {},
-  battle: {}
+  battle: {
+    fighter_one: null,
+    fighter_two: null
+  }
 })
 
 export const mutations = {
@@ -31,7 +34,7 @@ export const actions = {
     await dispatch('pokemonRandom', 2)
   },
 
-  async  pokemonRandom({ dispatch }, payload) {
+  async pokemonRandom({ dispatch }, payload) {
     let index = Math.floor(Math.random() * 893)
     const data = {
       type: payload,
