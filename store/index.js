@@ -2,14 +2,7 @@ import ApiService from "@/services/ApiService"
 const api = new ApiService()
 export const state = () => ({
   isMobile: null,
-  isAuthenticated: false,
   isLoading: false,
-  expires: '',
-  expiresUser: '',
-  token: '',
-  access_token: '',
-  refresh_token: '',
-  isLoggedIn: false,
   data: {},
   battle: {}
 })
