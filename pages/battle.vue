@@ -5,6 +5,16 @@
         <v-btn @click="getPokemon('action')" color="yellow" icon>
           <v-icon size="45">fas fa-sync</v-icon>
         </v-btn>
+
+        <div style="margin-top: 5%" :class="stylePkTwo">
+          <v-btn
+            v-if="render && (!start || !endTime)"
+            outlined
+            @click="onStart()"
+            color="dark"
+            large
+          >START</v-btn>
+        </div>
         <v-row v-if="render">
           <v-col :class="stylePkOne" cols="6" sm="4">
             <v-card>
@@ -25,6 +35,16 @@
               </v-card-text>
             </v-card>
           </v-col>
+          <!-- <div class="animate__animated animate__backInRight">
+            <v-snackbar
+              v-model="snackbar"
+              absolute
+              centered
+              timeout="500"
+              color="deep-purple accent-4"
+              elevation="24"
+            >{{actionMove}}</v-snackbar>
+          </div>-->
 
           <v-col cols="6" sm="4">
             <v-card-text style="margin-top: 25%" :class="styleVersus">
@@ -40,6 +60,22 @@
                 <CountdownTimer ref="countDown" :timeLimit="time" />
               </div>
             </v-card-text>
+
+            <v-timeline :reverse="true" v-if="start">
+              <v-timeline-item
+                class="mb-4"
+                color="grey"
+                small
+                v-for="(move, t) of movesBattle"
+                :key="t"
+                :icon="move.style.icon"
+                :icon-color="move.style.color"
+              >
+                <v-row justify="space-between">
+                  <span>{{move.action}}</span>
+                </v-row>
+              </v-timeline-item>
+            </v-timeline>
           </v-col>
 
           <v-col :class="stylePkTwo" cols="6" sm="4">
@@ -62,15 +98,6 @@
             </v-card>
           </v-col>
         </v-row>
-        <div :class="stylePkTwo">
-          <v-btn
-            v-if="render && !start && !endTime"
-            outlined
-            @click="onStart()"
-            color="dark"
-            large
-          >START</v-btn>
-        </div>
       </v-container>
       <v-overlay :value="isLoading">
         <loading v-if="isLoading" />
@@ -81,6 +108,7 @@
 <script>
 import CountdownTimer from "@/components/CountdownTimer";
 import Loading from "@/components/Loading";
+import constants from "@/util/constants";
 export default {
   components: { CountdownTimer, Loading },
   data() {
@@ -93,6 +121,10 @@ export default {
       start: false,
       time: 10,
       endTime: false,
+      snackbar: false,
+      actionMove: "",
+      arrayMovesOne: [],
+      arrayMovesTwo: [],
     };
   },
   mounted() {
@@ -115,6 +147,12 @@ export default {
     },
   },
   computed: {
+    movesFightOne() {
+      return this.fighterOne.moves;
+    },
+    movesFightTwo() {
+      return this.fighterTwo.moves;
+    },
     fighterOne() {
       return this.$store.state.battle.fighter_one;
     },
@@ -154,10 +192,15 @@ export default {
         ? this.fighterTwo
         : arrFighter;
     },
+    movesBattle() {
+      return [...this.arrayMovesOne, ...this.arrayMovesTwo];
+    },
   },
   methods: {
     async getPokemon(event) {
       this.isLoading = true;
+      this.arrayMovesOne = [];
+      this.arrayMovesTwo = [];
       if (event) {
         this.start = false;
         this.endTime = false;
@@ -182,8 +225,42 @@ export default {
         }, 600);
       });
     },
+    actionsFighterOne(time) {
+      let moves = [];
+      this.movesFightOne.map((res) => {
+        moves.push(res.move.name);
+      });
+      let condition = moves.length - time;
+      let index = Math.floor(Math.random() * condition);
+      this.arrayMovesOne.push({
+        action: moves[index],
+        style: constants.icons.find(
+          (res) => this.fighterOne.types[0].type.name === res.path
+        ),
+      });
+    },
+    actionsFighterTwo(time) {
+      let moves = [];
+      this.movesFightTwo.map((res) => {
+        moves.push(res.move.name);
+      });
+      let condition = moves.length - time;
+      let index = Math.floor(Math.random() * condition);
+      this.arrayMovesTwo.push({
+        action: moves[index],
+        style: constants.icons.find(
+          (res) => this.fighterTwo.types[0].type.name === res.path
+        ),
+      });
+    },
+    actionsBattle(time) {
+      this.actionsFighterOne(time);
+      this.actionsFighterTwo(time);
+    },
     onStart() {
       this.start = !this.start;
+      this.arrayMovesOne = [];
+      this.arrayMovesTwo = [];
       setTimeout(() => {
         this.timeLeft();
       }, 400);
@@ -193,9 +270,10 @@ export default {
         () => {
           return this.$refs.countDown ? this.$refs.countDown.timeLeft : 0;
         },
-        (val) => {
-          !val ? ((this.start = false), (this.endTime = true)) : "";
-        }
+        (val) =>
+          !val
+            ? ((this.start = false), (this.endTime = true))
+            : this.actionsBattle(val)
       );
     },
   },
