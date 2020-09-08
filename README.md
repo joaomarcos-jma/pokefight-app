@@ -1,4 +1,4 @@
-# nuxt-template
+# pokefight-app
 
 ## Build Setup
 
