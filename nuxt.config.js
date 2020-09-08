@@ -1,6 +1,3 @@
-import colors from 'vuetify/es5/util/colors'
-import { API_BASE } from './util/enviroments'
-
 export default {
   /*
   ** Nuxt rendering mode
@@ -12,13 +9,15 @@ export default {
   ** See https://nuxtjs.org/api/configuration-target
   */
   target: 'server',
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+  },
   /*
   ** Headers of the page
   ** See https://nuxtjs.org/api/configuration-head
   */
   head: {
-    titleTemplate: '%s - ' + process.env.npm_package_name,
-    title: process.env.npm_package_name || '',
+    title: 'PokefightApp',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -32,7 +31,8 @@ export default {
   ** Global CSS
   */
   css: [
-    '~/scss/main.scss'
+    '~/scss/main.scss',
+    '@fortawesome/fontawesome-free/css/all.css'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -43,13 +43,8 @@ export default {
       src: '~/plugins/localStorage.js',
       ssr: false
     },
-    '@/plugins/functions',
     '@/plugins/sweet-alert.js',
-    '@/plugins/currency.js',
-    '@/plugins/filters.js',
-    '@/plugins/mask.js',
     '@/plugins/animate.js',
-    '@/plugins/vue-the-mask.js',
   ],
   /*
   ** Auto import components
@@ -69,7 +64,6 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    '@nuxtjs/proxy',
     'cookie-universal-nuxt'
   ],
   /*
@@ -77,11 +71,6 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    proxy: true
-  },
-
-  proxy: {
-    '/base_url': { target: API_BASE, pathRewrite: { '^/base_url': '' }, changeOrigin: true }
   },
   /*
   ** vuetify module configuration
@@ -89,15 +78,18 @@ export default {
   */
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
-    optionsPath: './vuetify.options.js'
+    optionsPath: './vuetify.options.js',
+    icons: {
+      iconfont: 'fa'
+    },
   },
   pwa: {
     icon: {
       iconSrc: './static/icon.png'
     },
     manifest: {
-      name: 'Nuxt Template PWA',
-      short_name: 'Nuxt Template',
+      name: 'Rinhamon PWA',
+      short_name: 'Rinhamon',
       lang: 'en',
       display: 'standalone',
     },

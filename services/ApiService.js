@@ -1,34 +1,22 @@
 import axios from "axios";
 import ErrorHandler from "./ErrorHandler"
 let store = {}
-if (process.browser) {
-  window.onNuxtReady(({ $store }) => {
-    store = $store
-  })
-}
+window.onNuxtReady(({ $store }) => {
+  store = $store
+})
 
 export default class ApiService extends ErrorHandler {
   async request(method, uri, data, params) {
-    const token = window.$nuxt.$cookies.get("token");
     if (!method || !uri) {
       return;
     }
-    if (token) {
-      axios.defaults.headers.common = {
-        Authorization: "Bearer " + token,
-      };
-    }
 
-    let url = "/base_url" + uri; /* use proxy */
+    let url = process.env.baseUrl + uri;
 
     this.setLoading(true)
-    await axios({ method, url, data, params }).then((res) => {
-      this.setLoading(false)
-      return res;
-    }).catch((err) => {
-      this.setLoading(false)
-      return this.errorHandler(err.response)
-    });
+    let response = await axios({ method, url, data, params }).catch(err => this.errorHandler(err.response));
+    this.setLoading(false)
+    return response;
   }
 
   async setLoading(val) {
