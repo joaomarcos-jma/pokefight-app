@@ -88,8 +88,8 @@ export default {
       iconSrc: './static/icon.png'
     },
     manifest: {
-      name: 'Rinhamon PWA',
-      short_name: 'Rinhamon',
+      name: 'pokefight PWA',
+      short_name: 'pokefight',
       lang: 'en',
       display: 'standalone',
     },
